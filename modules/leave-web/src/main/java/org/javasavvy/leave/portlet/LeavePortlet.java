@@ -10,10 +10,7 @@ import org.javasavvy.leave.constants.LeavePortletKeys;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
+import javax.portlet.*;
 
 import org.javasavvy.leave.core.service.model.Leave;
 import org.javasavvy.leave.core.service.service.LeaveLocalServiceUtil;
@@ -48,5 +45,10 @@ public class LeavePortlet extends MVCPortlet {
         serviceContext.setScopeGroupId(usuario.getGroupId());
         Leave leave = LeaveLocalServiceUtil.createLeave(new Random().nextLong());
         LeaveLocalServiceUtil.addLeave(serviceContext, "leaveName1", new Date(), new Date());
+    }
+
+    @Override
+    public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+        super.doView(renderRequest, renderResponse);
     }
 }

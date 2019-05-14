@@ -1,3 +1,4 @@
+<%@page language="java" contentType="text/html; charset=utf-8" %>
 <%@page import="javax.portlet.PortletURL" %>
 <%@ page import="org.javasavvy.leave.core.service.service.LeaveLocalServiceUtil" %>
 <%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
@@ -19,7 +20,13 @@
         userName="<%= themeDisplay.getRealUser().getFullName() %>"
 />
 <div class="container-fluid-1280 main-content-body">
-
+    <%-- <label>Тип процесса
+         <select>
+             <option></option>
+             <option>Заявка на отсутствие по личным обстоятельствам</option>
+         </select>
+     </label>
+     <a href=""></a>--%>
     <liferay-ui:search-container emptyResultsMessage="no-leaves-found" iteratorURL="<%=leaveItrUrl %>">
         <liferay-ui:search-container-results results="<%= LeaveLocalServiceUtil.getLeaves(-1, -1) %>">
         </liferay-ui:search-container-results>
@@ -30,13 +37,18 @@
                 <portlet:param name="leaveId" value="${leave.leaveId}"/>
                 <portlet:param name="mvcRenderCommandName" value="viewleave_info"/>
             </portlet:renderURL>
-            <liferay-ui:search-container-column-user userId="${leave.userId}" showDetails="false" name="User"/>
+
+            <portlet:resourceURL id="delete_leave_res" var="deleteLeaveRes">
+                <portlet:param name="leaveId" value="${leave.leaveId}"/>
+            </portlet:resourceURL>
+
+            <liferay-ui:search-container-column-user userId="${leave.userId}" showDetails="false" name="Пользователь"/>
             <liferay-ui:search-container-column-text property="userName" name="User Name" href="${rowURL}"/>
             <liferay-ui:search-container-column-text property="leaveName" name="Leave Name" href="${rowURL}"/>
             <liferay-ui:search-container-column-date property="startDate" name="Start Date"/>
             <liferay-ui:search-container-column-date property="endDate" name="End Date"/>
-            <liferay-ui:search-container-column-status property="status" name="Status">
-            </liferay-ui:search-container-column-status>
+            <liferay-ui:search-container-column-status property="status" name="Status"/>
+            <liferay-ui:search-container-column-button href="<%= deleteLeaveRes %>" name="Delete"/>
 
         </liferay-ui:search-container-row>
         <liferay-ui:search-iterator/>
@@ -45,5 +57,4 @@
     <liferay-frontend:add-menu>
         <liferay-frontend:add-menu-item title='<%= LanguageUtil.get(request, "add-leave") %>' url="<%= addLeaveJSP %>"/>
     </liferay-frontend:add-menu>
-
 </div>
