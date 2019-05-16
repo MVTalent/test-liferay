@@ -1,7 +1,7 @@
 Bundle-Name: zskp-core-api
 Bundle-SymbolicName: ru.rostec.api
 Bundle-Version: 1.0.0
-Export-Package:\
+Export-Package: \
 	ru.rostec.exception,\
 	ru.rostec.model,\
 	ru.rostec.service,\
