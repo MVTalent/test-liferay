@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="ru.rostec.service.impl.ZskpProcessLocalServiceImpl" id="ru.rostec.service.ZskpProcessLocalService" />
+	<bean class="ru.rostec.service.impl.ZskpProcessServiceImpl" id="ru.rostec.service.ZskpProcessService" />
+	<bean class="ru.rostec.service.persistence.impl.ZskpProcessPersistenceImpl" id="ru.rostec.service.persistence.ZskpProcessPersistence" parent="basePersistence" />
+</beans>
