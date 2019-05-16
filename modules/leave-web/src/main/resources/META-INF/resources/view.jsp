@@ -1,8 +1,6 @@
-<%@page language="java" contentType="text/html; charset=utf-8" %>
 <%@page import="javax.portlet.PortletURL" %>
 <%@ page import="org.javasavvy.leave.core.service.service.LeaveLocalServiceUtil" %>
 <%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
-<%@ page import="java.time.LocalDate" %>
 <%@ include file="/init.jsp" %>
 <%
     PortletURL leaveItrUrl = renderResponse.createRenderURL();
@@ -20,14 +18,10 @@
         userName="<%= themeDisplay.getRealUser().getFullName() %>"
 />
 <div class="container-fluid-1280 main-content-body">
-    <%-- <label>Тип процесса
-         <select>
-             <option></option>
-             <option>Заявка на отсутствие по личным обстоятельствам</option>
-         </select>
-     </label>
-     <a href=""></a>--%>
-    <liferay-ui:search-container emptyResultsMessage="no-leaves-found" iteratorURL="<%=leaveItrUrl %>">
+    <liferay-ui:table-iterator list="" listType="" rowLength="">
+
+    </liferay-ui:table-iterator>
+    <liferay-ui:search-container emptyResultsMessage="no-process-found" iteratorURL="<%=leaveItrUrl %>">
         <liferay-ui:search-container-results results="<%= LeaveLocalServiceUtil.getLeaves(-1, -1) %>">
         </liferay-ui:search-container-results>
 

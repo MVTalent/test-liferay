@@ -1,0 +1,4 @@
+Bundle-Name: zskp-web
+Bundle-SymbolicName: ru.rostec
+Bundle-Version: 1.0.0
+Export-Package: ru.rostec.constants

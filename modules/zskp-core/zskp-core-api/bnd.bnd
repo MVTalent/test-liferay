@@ -1,0 +1,10 @@
+Bundle-Name: zskp-core-api
+Bundle-SymbolicName: ru.rostec.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	ru.rostec.exception,\
+	ru.rostec.model,\
+	ru.rostec.service,\
+	ru.rostec.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../zskp-core-service/service.xml

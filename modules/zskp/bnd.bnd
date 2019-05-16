@@ -1,5 +1,0 @@
-Bundle-Name: zskp
-Bundle-SymbolicName: leave.zskp.rostech
-Bundle-Version: 1.0.0
-Export-Package: leave.zskp.rostech.constants
-Web-ContextPath: /zskp
