@@ -1,40 +1,35 @@
 <?xml version="1.0"?>
-<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_1_0.dtd">
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.1.0//EN"
+        "http://www.liferay.com/dtd/liferay-service-builder_7_1_0.dtd">
 
 <service-builder package-path="ru.rostec">
-	<namespace>ZSKP</namespace>
-	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
-	<entity local-service="true" name="ZskpProcess" remote-service="true" uuid="true">
-
-		<!-- PK fields -->
-
-		<column name="processId" primary="true" type="long" />
-
-		<!-- Group instance -->
-
-		<column name="name" type="String" />
-
-		<!-- Audit fields -->
-
-		<column name="type" type="long" />
-		<column name="kind" type="long" />
-
-
-		<!-- Order -->
-
-		<order by="asc">
-			<order-column name="name" />
-		</order>
-
-		<!-- Finder methods -->
-
-		<finder name="name" return-type="Collection">
-			<finder-column name="name" />
-		</finder>
-
-		<!-- References -->
-
-		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	</entity>
+    <namespace>ZSKP</namespace>
+    <entity local-service="true" name="Process" remote-service="true">
+        <column name="id" primary="true" type="long" id-type="increment"/>
+        <column name="name" type="String"/>
+        <column name="type" type="long"/>
+        <column name="kind" type="long"/>
+        <order by="asc">
+            <order-column name="name"/>
+        </order>
+        <finder name="name" return-type="Collection">
+            <finder-column name="name"/>
+        </finder>
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"/>
+        <reference entity="AssetTag" package-path="com.liferay.portlet.asset"/>
+    </entity>
+    <entity name="Kind" local-service="true" remote-service="true">
+        <column name="id" type="long" primary="true" id-type="increment"/>
+        <column name="code" type="String"/>
+        <column name="name" type="String"/>
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"/>
+        <reference entity="AssetTag" package-path="com.liferay.portlet.asset"/>
+    </entity>
+    <entity name="Type" local-service="true" remote-service="true">
+        <column name="id" type="long" primary="true" id-type="increment"/>
+        <column name="code" type="String"/>
+        <column name="name" type="String"/>
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"/>
+        <reference entity="AssetTag" package-path="com.liferay.portlet.asset"/>
+    </entity>
 </service-builder>

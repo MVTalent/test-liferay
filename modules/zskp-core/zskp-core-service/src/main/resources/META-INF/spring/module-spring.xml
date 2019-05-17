@@ -7,7 +7,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
-	<bean class="ru.rostec.service.impl.ZskpProcessLocalServiceImpl" id="ru.rostec.service.ZskpProcessLocalService" />
-	<bean class="ru.rostec.service.impl.ZskpProcessServiceImpl" id="ru.rostec.service.ZskpProcessService" />
-	<bean class="ru.rostec.service.persistence.impl.ZskpProcessPersistenceImpl" id="ru.rostec.service.persistence.ZskpProcessPersistence" parent="basePersistence" />
+	<bean class="ru.rostec.service.impl.KindLocalServiceImpl" id="ru.rostec.service.KindLocalService" />
+	<bean class="ru.rostec.service.impl.KindServiceImpl" id="ru.rostec.service.KindService" />
+	<bean class="ru.rostec.service.persistence.impl.KindPersistenceImpl" id="ru.rostec.service.persistence.KindPersistence" parent="basePersistence" />
+	<bean class="ru.rostec.service.impl.ProcessLocalServiceImpl" id="ru.rostec.service.ProcessLocalService" />
+	<bean class="ru.rostec.service.impl.ProcessServiceImpl" id="ru.rostec.service.ProcessService" />
+	<bean class="ru.rostec.service.persistence.impl.ProcessPersistenceImpl" id="ru.rostec.service.persistence.ProcessPersistence" parent="basePersistence" />
+	<bean class="ru.rostec.service.impl.TypeLocalServiceImpl" id="ru.rostec.service.TypeLocalService" />
+	<bean class="ru.rostec.service.impl.TypeServiceImpl" id="ru.rostec.service.TypeService" />
+	<bean class="ru.rostec.service.persistence.impl.TypePersistenceImpl" id="ru.rostec.service.persistence.TypePersistence" parent="basePersistence" />
 </beans>

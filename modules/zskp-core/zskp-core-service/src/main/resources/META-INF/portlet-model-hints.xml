@@ -1,11 +1,20 @@
 <?xml version="1.0"?>
 
 <model-hints>
-	<model name="ru.rostec.model.ZskpProcess">
-		<field name="uuid" type="String" />
-		<field name="processId" type="long" />
+	<model name="ru.rostec.model.Kind">
+		<field name="id" type="long" />
+		<field name="code" type="String" />
+		<field name="name" type="String" />
+	</model>
+	<model name="ru.rostec.model.Process">
+		<field name="id" type="long" />
 		<field name="name" type="String" />
 		<field name="type" type="long" />
 		<field name="kind" type="long" />
+	</model>
+	<model name="ru.rostec.model.Type">
+		<field name="id" type="long" />
+		<field name="code" type="String" />
+		<field name="name" type="String" />
 	</model>
 </model-hints>
