@@ -12,7 +12,6 @@
     PortletURL leaveItrUrl = renderResponse.createRenderURL();
     leaveItrUrl.setParameter("mvcPath", "/view.jsp");
     List<Kind> kindList = KindLocalServiceUtil.getKinds(-1, -1);
-
 %>
 <portlet:renderURL var="initProcess">
     <portlet:param name="mvcPath" value="/process/initProcess.jsp"/>
@@ -23,19 +22,20 @@
 <div>
     <select id="process-kind-sel" onchange="filterProcessKind()">
         <option value="none" selected>Выберите вид процесса</option>
-        <c:forEach var="kind" items="${kindList}">
-            <option value="${kind.code}">${kind.name}</option>
-        </c:forEach>
+        <%
+            for (Kind kind : kindList) {
+        %>
+        <option value="<%=kind.getCode()%>"><%=kind.getName()%></option>
+        <%} %>
     </select>
 
 
-
-        <%--<option value="holiday">Отпуск</option>
-        <option value="application">Заявки</option>
-        <option value="corporate_applications">Общекорпоративные заявки</option>
-    </select>--%>
+    <%--<option value="holiday">Отпуск</option>
+    <option value="application">Заявки</option>
+    <option value="corporate_applications">Общекорпоративные заявки</option>
+</select>--%>
     <ul class="process-kinds">
-        <li class="absence"><span>Отсутствие222</span>
+        <li class="absence"><span>Отсутствие</span>
             <ul>
                 <li>Отсутствие по личным обстоятельствам
                     <ul class="process-name">
