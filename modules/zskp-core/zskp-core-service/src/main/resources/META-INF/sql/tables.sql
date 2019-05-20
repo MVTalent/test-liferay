@@ -1,23 +1,22 @@
 create table ZSKP_Kind (
-	id_ bigserial primary key,
-	code_ VARCHAR(75) not null,
-	name VARCHAR(75) not null
+	id_ LONG not null primary key,
+	code_ VARCHAR(75) null,
+	name VARCHAR(75) null
 );
 
-insert into ZSKP_Kind (code_, name) values ('absence', 'Отсутствие');
-insert into ZSKP_Kind (code_, name) values ('holiday', 'Отпуск');
-insert into ZSKP_Kind (code_, name) values ('application', 'Заявки');
-insert into ZSKP_Kind (code_, name) values ('corporate_applications', 'Общекорпоративные заявки');
-
 create table ZSKP_Process (
-	id_ bigserial primary key,
-	name VARCHAR(75) not null,
-	type_ bigint,
-	kind bigint
+	id_ LONG not null primary key,
+	name VARCHAR(75) null,
+	type_ LONG,
+	kind LONG,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null
 );
 
 create table ZSKP_Type (
-	id_ bigserial primary key,
-	code_ VARCHAR(75) not null,
-	name VARCHAR(75) not null
+	id_ LONG not null primary key,
+	code_ VARCHAR(75) null,
+	name VARCHAR(75) null
 );

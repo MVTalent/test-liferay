@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -60,6 +61,10 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 		attributes.put("name", getName());
 		attributes.put("type", getType());
 		attributes.put("kind", getKind());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 
 		return attributes;
 	}
@@ -88,6 +93,30 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 
 		if (kind != null) {
 			setKind(kind);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
 		}
 	}
 
@@ -152,6 +181,56 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 	}
 
 	/**
+	* Returns the status of this process.
+	*
+	* @return the status of this process
+	*/
+	@Override
+	public int getStatus() {
+		return _process.getStatus();
+	}
+
+	/**
+	* Returns the status by user ID of this process.
+	*
+	* @return the status by user ID of this process
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _process.getStatusByUserId();
+	}
+
+	/**
+	* Returns the status by user name of this process.
+	*
+	* @return the status by user name of this process
+	*/
+	@Override
+	public String getStatusByUserName() {
+		return _process.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this process.
+	*
+	* @return the status by user uuid of this process
+	*/
+	@Override
+	public String getStatusByUserUuid() {
+		return _process.getStatusByUserUuid();
+	}
+
+	/**
+	* Returns the status date of this process.
+	*
+	* @return the status date of this process
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _process.getStatusDate();
+	}
+
+	/**
 	* Returns the type of this process.
 	*
 	* @return the type of this process
@@ -166,9 +245,39 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 		return _process.hashCode();
 	}
 
+	/**
+	* Returns <code>true</code> if this process is approved.
+	*
+	* @return <code>true</code> if this process is approved; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isApproved() {
+		return _process.isApproved();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _process.isCachedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this process is denied.
+	*
+	* @return <code>true</code> if this process is denied; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDenied() {
+		return _process.isDenied();
+	}
+
+	/**
+	* Returns <code>true</code> if this process is a draft.
+	*
+	* @return <code>true</code> if this process is a draft; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDraft() {
+		return _process.isDraft();
 	}
 
 	@Override
@@ -176,9 +285,59 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 		return _process.isEscapedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this process is expired.
+	*
+	* @return <code>true</code> if this process is expired; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isExpired() {
+		return _process.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this process is inactive.
+	*
+	* @return <code>true</code> if this process is inactive; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isInactive() {
+		return _process.isInactive();
+	}
+
+	/**
+	* Returns <code>true</code> if this process is incomplete.
+	*
+	* @return <code>true</code> if this process is incomplete; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIncomplete() {
+		return _process.isIncomplete();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _process.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this process is pending.
+	*
+	* @return <code>true</code> if this process is pending; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isPending() {
+		return _process.isPending();
+	}
+
+	/**
+	* Returns <code>true</code> if this process is scheduled.
+	*
+	* @return <code>true</code> if this process is scheduled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isScheduled() {
+		return _process.isScheduled();
 	}
 
 	@Override
@@ -255,6 +414,56 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_process.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the status of this process.
+	*
+	* @param status the status of this process
+	*/
+	@Override
+	public void setStatus(int status) {
+		_process.setStatus(status);
+	}
+
+	/**
+	* Sets the status by user ID of this process.
+	*
+	* @param statusByUserId the status by user ID of this process
+	*/
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_process.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	* Sets the status by user name of this process.
+	*
+	* @param statusByUserName the status by user name of this process
+	*/
+	@Override
+	public void setStatusByUserName(String statusByUserName) {
+		_process.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	* Sets the status by user uuid of this process.
+	*
+	* @param statusByUserUuid the status by user uuid of this process
+	*/
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid) {
+		_process.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	* Sets the status date of this process.
+	*
+	* @param statusDate the status date of this process
+	*/
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_process.setStatusDate(statusDate);
 	}
 
 	/**

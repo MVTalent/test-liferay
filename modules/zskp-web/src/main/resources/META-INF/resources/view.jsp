@@ -29,11 +29,6 @@
         <%} %>
     </select>
 
-
-    <%--<option value="holiday">Отпуск</option>
-    <option value="application">Заявки</option>
-    <option value="corporate_applications">Общекорпоративные заявки</option>
-</select>--%>
     <ul class="process-kinds">
         <li class="absence"><span>Отсутствие</span>
             <ul>

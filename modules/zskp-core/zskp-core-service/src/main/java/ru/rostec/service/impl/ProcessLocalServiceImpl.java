@@ -14,7 +14,14 @@
 
 package ru.rostec.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import ru.rostec.model.Process;
 import ru.rostec.service.base.ProcessLocalServiceBaseImpl;
+
+import java.util.Date;
 
 /**
  * The implementation of the process local service.
@@ -31,6 +38,35 @@ import ru.rostec.service.base.ProcessLocalServiceBaseImpl;
  * @see ru.rostec.service.ProcessLocalServiceUtil
  */
 public class ProcessLocalServiceImpl extends ProcessLocalServiceBaseImpl {
+
+	@Override
+	public Process updateStatus(long userId, long processId, int status, ServiceContext serviceContext) {
+		Process process = processPersistence.fetchByPrimaryKey(processId);
+		process.setStatus(status);
+		process.setStatusByUserId(userId);
+		process.setStatusDate(new Date());
+		User user = null;
+		try {
+			user = userLocalService.getUser(userId);
+			process.setStatusByUserName(user.getFullName());
+			process.setStatusByUserUuid(user.getUserUuid());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		process = processPersistence.update(process);
+		try {
+			if (status == WorkflowConstants.STATUS_APPROVED) {
+				// update the asset status to visibile
+				assetEntryLocalService.updateEntry(Process.class.getName(), processId, new Date(),null, true, true);
+			} else {
+				// set process entity status to false
+				assetEntryLocalService.updateVisible(Process.class.getName(), processId, false);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return process;
+	}
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

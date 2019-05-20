@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Process in entity cache.
  *
@@ -62,7 +64,7 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{id=");
 		sb.append(id);
@@ -72,6 +74,14 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 		sb.append(type);
 		sb.append(", kind=");
 		sb.append(kind);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -92,6 +102,22 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 
 		processImpl.setType(type);
 		processImpl.setKind(kind);
+		processImpl.setStatus(status);
+		processImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			processImpl.setStatusByUserName("");
+		}
+		else {
+			processImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			processImpl.setStatusDate(null);
+		}
+		else {
+			processImpl.setStatusDate(new Date(statusDate));
+		}
 
 		processImpl.resetOriginalValues();
 
@@ -106,6 +132,12 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 		type = objectInput.readLong();
 
 		kind = objectInput.readLong();
+
+		status = objectInput.readInt();
+
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
 	}
 
 	@Override
@@ -123,10 +155,27 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 		objectOutput.writeLong(type);
 
 		objectOutput.writeLong(kind);
+
+		objectOutput.writeInt(status);
+
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
 	}
 
 	public long id;
 	public String name;
 	public long type;
 	public long kind;
+	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
 }

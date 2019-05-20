@@ -604,6 +604,488 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 
 	private static final String _FINDER_COLUMN_NAME_NAME_2 = "process.name = ?";
 	private static final String _FINDER_COLUMN_NAME_NAME_3 = "(process.name IS NULL OR process.name = '')";
+	private FinderPath _finderPathWithPaginationFindBystatus;
+	private FinderPath _finderPathWithoutPaginationFindBystatus;
+	private FinderPath _finderPathCountBystatus;
+
+	/**
+	 * Returns all the processes where status = &#63;.
+	 *
+	 * @param status the status
+	 * @return the matching processes
+	 */
+	@Override
+	public List<Process> findBystatus(int status) {
+		return findBystatus(status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the processes where status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcessModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param status the status
+	 * @param start the lower bound of the range of processes
+	 * @param end the upper bound of the range of processes (not inclusive)
+	 * @return the range of matching processes
+	 */
+	@Override
+	public List<Process> findBystatus(int status, int start, int end) {
+		return findBystatus(status, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the processes where status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcessModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param status the status
+	 * @param start the lower bound of the range of processes
+	 * @param end the upper bound of the range of processes (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching processes
+	 */
+	@Override
+	public List<Process> findBystatus(int status, int start, int end,
+		OrderByComparator<Process> orderByComparator) {
+		return findBystatus(status, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the processes where status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcessModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param status the status
+	 * @param start the lower bound of the range of processes
+	 * @param end the upper bound of the range of processes (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching processes
+	 */
+	@Override
+	public List<Process> findBystatus(int status, int start, int end,
+		OrderByComparator<Process> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = _finderPathWithoutPaginationFindBystatus;
+			finderArgs = new Object[] { status };
+		}
+		else {
+			finderPath = _finderPathWithPaginationFindBystatus;
+			finderArgs = new Object[] { status, start, end, orderByComparator };
+		}
+
+		List<Process> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Process>)finderCache.getResult(finderPath, finderArgs,
+					this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Process process : list) {
+					if ((status != process.getStatus())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_PROCESS_WHERE);
+
+			query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(ProcessModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(status);
+
+				if (!pagination) {
+					list = (List<Process>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Process>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first process in the ordered set where status = &#63;.
+	 *
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching process
+	 * @throws NoSuchProcessException if a matching process could not be found
+	 */
+	@Override
+	public Process findBystatus_First(int status,
+		OrderByComparator<Process> orderByComparator)
+		throws NoSuchProcessException {
+		Process process = fetchBystatus_First(status, orderByComparator);
+
+		if (process != null) {
+			return process;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("status=");
+		msg.append(status);
+
+		msg.append("}");
+
+		throw new NoSuchProcessException(msg.toString());
+	}
+
+	/**
+	 * Returns the first process in the ordered set where status = &#63;.
+	 *
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching process, or <code>null</code> if a matching process could not be found
+	 */
+	@Override
+	public Process fetchBystatus_First(int status,
+		OrderByComparator<Process> orderByComparator) {
+		List<Process> list = findBystatus(status, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last process in the ordered set where status = &#63;.
+	 *
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching process
+	 * @throws NoSuchProcessException if a matching process could not be found
+	 */
+	@Override
+	public Process findBystatus_Last(int status,
+		OrderByComparator<Process> orderByComparator)
+		throws NoSuchProcessException {
+		Process process = fetchBystatus_Last(status, orderByComparator);
+
+		if (process != null) {
+			return process;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("status=");
+		msg.append(status);
+
+		msg.append("}");
+
+		throw new NoSuchProcessException(msg.toString());
+	}
+
+	/**
+	 * Returns the last process in the ordered set where status = &#63;.
+	 *
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching process, or <code>null</code> if a matching process could not be found
+	 */
+	@Override
+	public Process fetchBystatus_Last(int status,
+		OrderByComparator<Process> orderByComparator) {
+		int count = countBystatus(status);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Process> list = findBystatus(status, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the processes before and after the current process in the ordered set where status = &#63;.
+	 *
+	 * @param id the primary key of the current process
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next process
+	 * @throws NoSuchProcessException if a process with the primary key could not be found
+	 */
+	@Override
+	public Process[] findBystatus_PrevAndNext(long id, int status,
+		OrderByComparator<Process> orderByComparator)
+		throws NoSuchProcessException {
+		Process process = findByPrimaryKey(id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Process[] array = new ProcessImpl[3];
+
+			array[0] = getBystatus_PrevAndNext(session, process, status,
+					orderByComparator, true);
+
+			array[1] = process;
+
+			array[2] = getBystatus_PrevAndNext(session, process, status,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Process getBystatus_PrevAndNext(Session session, Process process,
+		int status, OrderByComparator<Process> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_PROCESS_WHERE);
+
+		query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(ProcessModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(status);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue : orderByComparator.getOrderByConditionValues(
+					process)) {
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Process> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the processes where status = &#63; from the database.
+	 *
+	 * @param status the status
+	 */
+	@Override
+	public void removeBystatus(int status) {
+		for (Process process : findBystatus(status, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(process);
+		}
+	}
+
+	/**
+	 * Returns the number of processes where status = &#63;.
+	 *
+	 * @param status the status
+	 * @return the number of matching processes
+	 */
+	@Override
+	public int countBystatus(int status) {
+		FinderPath finderPath = _finderPathCountBystatus;
+
+		Object[] finderArgs = new Object[] { status };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_PROCESS_WHERE);
+
+			query.append(_FINDER_COLUMN_STATUS_STATUS_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(status);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_STATUS_STATUS_2 = "process.status = ?";
 
 	public ProcessPersistenceImpl() {
 		setModelClass(Process.class);
@@ -855,6 +1337,12 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 			finderCache.removeResult(_finderPathWithoutPaginationFindByname,
 				args);
 
+			args = new Object[] { processModelImpl.getStatus() };
+
+			finderCache.removeResult(_finderPathCountBystatus, args);
+			finderCache.removeResult(_finderPathWithoutPaginationFindBystatus,
+				args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(_finderPathWithoutPaginationFindAll,
 				FINDER_ARGS_EMPTY);
@@ -873,6 +1361,23 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 
 				finderCache.removeResult(_finderPathCountByname, args);
 				finderCache.removeResult(_finderPathWithoutPaginationFindByname,
+					args);
+			}
+
+			if ((processModelImpl.getColumnBitmask() &
+					_finderPathWithoutPaginationFindBystatus.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						processModelImpl.getOriginalStatus()
+					};
+
+				finderCache.removeResult(_finderPathCountBystatus, args);
+				finderCache.removeResult(_finderPathWithoutPaginationFindBystatus,
+					args);
+
+				args = new Object[] { processModelImpl.getStatus() };
+
+				finderCache.removeResult(_finderPathCountBystatus, args);
+				finderCache.removeResult(_finderPathWithoutPaginationFindBystatus,
 					args);
 			}
 		}
@@ -1310,6 +1815,28 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 				ProcessModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByname",
 				new String[] { String.class.getName() });
+
+		_finderPathWithPaginationFindBystatus = new FinderPath(ProcessModelImpl.ENTITY_CACHE_ENABLED,
+				ProcessModelImpl.FINDER_CACHE_ENABLED, ProcessImpl.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBystatus",
+				new String[] {
+					Integer.class.getName(),
+					
+				Integer.class.getName(), Integer.class.getName(),
+					OrderByComparator.class.getName()
+				});
+
+		_finderPathWithoutPaginationFindBystatus = new FinderPath(ProcessModelImpl.ENTITY_CACHE_ENABLED,
+				ProcessModelImpl.FINDER_CACHE_ENABLED, ProcessImpl.class,
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBystatus",
+				new String[] { Integer.class.getName() },
+				ProcessModelImpl.STATUS_COLUMN_BITMASK |
+				ProcessModelImpl.NAME_COLUMN_BITMASK);
+
+		_finderPathCountBystatus = new FinderPath(ProcessModelImpl.ENTITY_CACHE_ENABLED,
+				ProcessModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBystatus",
+				new String[] { Integer.class.getName() });
 	}
 
 	public void destroy() {

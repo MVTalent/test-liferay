@@ -9,11 +9,18 @@
         <column name="name" type="String"/>
         <column name="type" type="long"/>
         <column name="kind" type="long"/>
+        <column name="status" type="int"/>
+        <column name="statusByUserId" type="long"/>
+        <column name="statusByUserName" type="String"/>
+        <column name="statusDate" type="Date"/>
         <order by="asc">
             <order-column name="name"/>
         </order>
         <finder name="name" return-type="Collection">
             <finder-column name="name"/>
+        </finder>
+        <finder name="status" return-type="Collection">
+            <finder-column name="status"/>
         </finder>
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"/>
         <reference entity="AssetTag" package-path="com.liferay.portlet.asset"/>
@@ -22,14 +29,10 @@
         <column name="id" type="long" primary="true" id-type="increment"/>
         <column name="code" type="String"/>
         <column name="name" type="String"/>
-        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"/>
-        <reference entity="AssetTag" package-path="com.liferay.portlet.asset"/>
     </entity>
     <entity name="Type" local-service="true" remote-service="true">
         <column name="id" type="long" primary="true" id-type="increment"/>
         <column name="code" type="String"/>
         <column name="name" type="String"/>
-        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"/>
-        <reference entity="AssetTag" package-path="com.liferay.portlet.asset"/>
     </entity>
 </service-builder>

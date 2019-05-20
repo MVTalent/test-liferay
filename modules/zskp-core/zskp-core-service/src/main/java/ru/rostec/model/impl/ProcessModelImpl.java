@@ -20,14 +20,18 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import ru.rostec.model.Process;
 import ru.rostec.model.ProcessModel;
@@ -39,6 +43,7 @@ import java.sql.Types;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -73,7 +78,11 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 			{ "id_", Types.BIGINT },
 			{ "name", Types.VARCHAR },
 			{ "type_", Types.BIGINT },
-			{ "kind", Types.BIGINT }
+			{ "kind", Types.BIGINT },
+			{ "status", Types.INTEGER },
+			{ "statusByUserId", Types.BIGINT },
+			{ "statusByUserName", Types.VARCHAR },
+			{ "statusDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -82,9 +91,13 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("type_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("kind", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table ZSKP_Process (id_ LONG not null primary key,name VARCHAR(75) null,type_ LONG,kind LONG)";
+	public static final String TABLE_SQL_CREATE = "create table ZSKP_Process (id_ LONG not null primary key,name VARCHAR(75) null,type_ LONG,kind LONG,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table ZSKP_Process";
 	public static final String ORDER_BY_JPQL = " ORDER BY process.name ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY ZSKP_Process.name ASC";
@@ -101,6 +114,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 				"value.object.column.bitmask.enabled.ru.rostec.model.Process"),
 			true);
 	public static final long NAME_COLUMN_BITMASK = 1L;
+	public static final long STATUS_COLUMN_BITMASK = 2L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -119,6 +133,10 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 		model.setName(soapModel.getName());
 		model.setType(soapModel.getType());
 		model.setKind(soapModel.getKind());
+		model.setStatus(soapModel.getStatus());
+		model.setStatusByUserId(soapModel.getStatusByUserId());
+		model.setStatusByUserName(soapModel.getStatusByUserName());
+		model.setStatusDate(soapModel.getStatusDate());
 
 		return model;
 	}
@@ -310,6 +328,86 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"status",
+			new Function<Process, Object>() {
+
+				@Override
+				public Object apply(Process process) {
+					return process.getStatus();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"status",
+			new BiConsumer<Process, Object>() {
+
+				@Override
+				public void accept(Process process, Object status) {
+					process.setStatus((Integer)status);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusByUserId",
+			new Function<Process, Object>() {
+
+				@Override
+				public Object apply(Process process) {
+					return process.getStatusByUserId();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"statusByUserId",
+			new BiConsumer<Process, Object>() {
+
+				@Override
+				public void accept(Process process, Object statusByUserId) {
+					process.setStatusByUserId((Long)statusByUserId);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusByUserName",
+			new Function<Process, Object>() {
+
+				@Override
+				public Object apply(Process process) {
+					return process.getStatusByUserName();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"statusByUserName",
+			new BiConsumer<Process, Object>() {
+
+				@Override
+				public void accept(Process process, Object statusByUserName) {
+					process.setStatusByUserName((String)statusByUserName);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusDate",
+			new Function<Process, Object>() {
+
+				@Override
+				public Object apply(Process process) {
+					return process.getStatusDate();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"statusDate",
+			new BiConsumer<Process, Object>() {
+
+				@Override
+				public void accept(Process process, Object statusDate) {
+					process.setStatusDate((Date)statusDate);
+				}
+
+			});
 
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(attributeGetterFunctions);
@@ -375,6 +473,163 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 		_kind = kind;
 	}
 
+	@JSON
+	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
+		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
+	}
+
+	@JSON
+	@Override
+	public long getStatusByUserId() {
+		return _statusByUserId;
+	}
+
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_statusByUserId = statusByUserId;
+	}
+
+	@Override
+	public String getStatusByUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getStatusByUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return "";
+		}
+	}
+
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid) {
+	}
+
+	@JSON
+	@Override
+	public String getStatusByUserName() {
+		if (_statusByUserName == null) {
+			return "";
+		}
+		else {
+			return _statusByUserName;
+		}
+	}
+
+	@Override
+	public void setStatusByUserName(String statusByUserName) {
+		_statusByUserName = statusByUserName;
+	}
+
+	@JSON
+	@Override
+	public Date getStatusDate() {
+		return _statusDate;
+	}
+
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_statusDate = statusDate;
+	}
+
+	@Override
+	public boolean isApproved() {
+		if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDenied() {
+		if (getStatus() == WorkflowConstants.STATUS_DENIED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDraft() {
+		if (getStatus() == WorkflowConstants.STATUS_DRAFT) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isExpired() {
+		if (getStatus() == WorkflowConstants.STATUS_EXPIRED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isInactive() {
+		if (getStatus() == WorkflowConstants.STATUS_INACTIVE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isIncomplete() {
+		if (getStatus() == WorkflowConstants.STATUS_INCOMPLETE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isPending() {
+		if (getStatus() == WorkflowConstants.STATUS_PENDING) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isScheduled() {
+		if (getStatus() == WorkflowConstants.STATUS_SCHEDULED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -410,6 +665,10 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 		processImpl.setName(getName());
 		processImpl.setType(getType());
 		processImpl.setKind(getKind());
+		processImpl.setStatus(getStatus());
+		processImpl.setStatusByUserId(getStatusByUserId());
+		processImpl.setStatusByUserName(getStatusByUserName());
+		processImpl.setStatusDate(getStatusDate());
 
 		processImpl.resetOriginalValues();
 
@@ -472,6 +731,10 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
 		processModelImpl._originalName = processModelImpl._name;
 
+		processModelImpl._originalStatus = processModelImpl._status;
+
+		processModelImpl._setOriginalStatus = false;
+
 		processModelImpl._columnBitmask = 0;
 	}
 
@@ -492,6 +755,27 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 		processCacheModel.type = getType();
 
 		processCacheModel.kind = getKind();
+
+		processCacheModel.status = getStatus();
+
+		processCacheModel.statusByUserId = getStatusByUserId();
+
+		processCacheModel.statusByUserName = getStatusByUserName();
+
+		String statusByUserName = processCacheModel.statusByUserName;
+
+		if ((statusByUserName != null) && (statusByUserName.length() == 0)) {
+			processCacheModel.statusByUserName = null;
+		}
+
+		Date statusDate = getStatusDate();
+
+		if (statusDate != null) {
+			processCacheModel.statusDate = statusDate.getTime();
+		}
+		else {
+			processCacheModel.statusDate = Long.MIN_VALUE;
+		}
 
 		return processCacheModel;
 	}
@@ -560,6 +844,12 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 	private String _originalName;
 	private long _type;
 	private long _kind;
+	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
+	private long _statusByUserId;
+	private String _statusByUserName;
+	private Date _statusDate;
 	private long _columnBitmask;
 	private Process _escapedModel;
 }

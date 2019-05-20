@@ -11,6 +11,10 @@
 		<field name="name" type="String" />
 		<field name="type" type="long" />
 		<field name="kind" type="long" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
 	</model>
 	<model name="ru.rostec.model.Type">
 		<field name="id" type="long" />
