@@ -54,6 +54,14 @@ public class ProcessLocalServiceUtil {
 		return getService().addProcess(process);
 	}
 
+	public static ru.rostec.model.Process addProcess(
+		com.liferay.portal.kernel.service.ServiceContext serviceContext,
+		String processName, long processKind, long processType, long userId) {
+		return getService()
+				   .addProcess(serviceContext, processName, processKind,
+			processType, userId);
+	}
+
 	/**
 	* Creates a new process with the primary key. Does not add the process to the database.
 	*
@@ -247,6 +255,13 @@ public class ProcessLocalServiceUtil {
 	public static ru.rostec.model.Process updateProcess(
 		ru.rostec.model.Process process) {
 		return getService().updateProcess(process);
+	}
+
+	public static ru.rostec.model.Process updateStatus(long userId,
+		long processId, int status,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext) {
+		return getService()
+				   .updateStatus(userId, processId, status, serviceContext);
 	}
 
 	public static ProcessLocalService getService() {

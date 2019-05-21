@@ -14,10 +14,15 @@
 
 package ru.rostec.service.impl;
 
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import ru.rostec.model.Process;
 import ru.rostec.service.base.ProcessLocalServiceBaseImpl;
 
@@ -39,6 +44,44 @@ import java.util.Date;
  */
 public class ProcessLocalServiceImpl extends ProcessLocalServiceBaseImpl {
 
+	public Process addProcess(ServiceContext serviceContext, String processName, long processKind, long processType, long userId) {
+		long processId = counterLocalService.increment(Process.class.getName());
+		Process process = null;
+		try {
+			User user = userLocalService.getUser(userId);
+			process = processLocalService.createProcess(processId);
+			process.setName(processName);
+			process.setKind(processKind);
+			process.setType(processType);
+			process.setUserName(user.getFullName());
+			process.setCompanyId(serviceContext.getCompanyId());
+			process.setGroupId(serviceContext.getScopeGroupId());
+			process.setUserId(user.getUserId());
+
+			process.setStatus(WorkflowConstants.STATUS_DRAFT);
+			process.setStatusByUserId(user.getUserId());
+			process.setStatusDate(new Date());
+			process.setStatusByUserName(user.getFullName());
+			process.setStatusByUserUuid(user.getUserUuid());
+			process = processLocalService.addProcess(process);
+
+			//AssetEntry assetEntry = assetEntryLocalService.updateEntry(user.getUserId(), Process.class.getName(), process.getId(),  new Date(),  null, true, false);
+
+			AssetEntry assetEntry = assetEntryLocalService.updateEntry(user.getUserId(), serviceContext.getScopeGroupId(), new Date(),
+					new Date(), Process.class.getName(),process.getId(), null, 0, null, null, true, false, new Date(), null,
+					new Date(), null, ContentTypes.TEXT_HTML, process.getName(), process.getName(), null, null, null, 0, 0, null);
+
+			Indexer<Process> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Process.class);
+			indexer.reindex(process);
+
+			WorkflowHandlerRegistryUtil.startWorkflowInstance(process.getCompanyId(), process.getGroupId(), process.getUserId(), Process.class.getName(),
+					process.getPrimaryKey(), process, serviceContext);
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+		return process;
+	}
+
 	@Override
 	public Process updateStatus(long userId, long processId, int status, ServiceContext serviceContext) {
 		Process process = processPersistence.fetchByPrimaryKey(processId);
@@ -51,6 +94,7 @@ public class ProcessLocalServiceImpl extends ProcessLocalServiceBaseImpl {
 			process.setStatusByUserName(user.getFullName());
 			process.setStatusByUserUuid(user.getUserUuid());
 		} catch (PortalException e) {
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 		process = processPersistence.update(process);

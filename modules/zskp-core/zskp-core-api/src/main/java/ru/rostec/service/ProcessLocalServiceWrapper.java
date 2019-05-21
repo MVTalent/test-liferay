@@ -16,9 +16,7 @@ package ru.rostec.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceWrapper;
-import ru.rostec.model.Process;
 
 /**
  * Provides a wrapper for {@link ProcessLocalService}.
@@ -43,6 +41,14 @@ public class ProcessLocalServiceWrapper implements ProcessLocalService,
 	@Override
 	public ru.rostec.model.Process addProcess(ru.rostec.model.Process process) {
 		return _processLocalService.addProcess(process);
+	}
+
+	@Override
+	public ru.rostec.model.Process addProcess(
+		com.liferay.portal.kernel.service.ServiceContext serviceContext,
+		String processName, long processKind, long processType, long userId) {
+		return _processLocalService.addProcess(serviceContext, processName,
+			processKind, processType, userId);
 	}
 
 	/**
@@ -260,8 +266,11 @@ public class ProcessLocalServiceWrapper implements ProcessLocalService,
 	}
 
 	@Override
-	public Process updateStatus(long userId, long processId, int status, ServiceContext serviceContext) {
-		return _processLocalService.updateStatus(userId, processId, status, serviceContext);
+	public ru.rostec.model.Process updateStatus(long userId, long processId,
+		int status,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext) {
+		return _processLocalService.updateStatus(userId, processId, status,
+			serviceContext);
 	}
 
 	@Override

@@ -64,7 +64,7 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{id=");
 		sb.append(id);
@@ -74,6 +74,18 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 		sb.append(type);
 		sb.append(", kind=");
 		sb.append(kind);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append(", status=");
 		sb.append(status);
 		sb.append(", statusByUserId=");
@@ -102,6 +114,31 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 
 		processImpl.setType(type);
 		processImpl.setKind(kind);
+		processImpl.setGroupId(groupId);
+		processImpl.setCompanyId(companyId);
+		processImpl.setUserId(userId);
+
+		if (userName == null) {
+			processImpl.setUserName("");
+		}
+		else {
+			processImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			processImpl.setCreateDate(null);
+		}
+		else {
+			processImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			processImpl.setModifiedDate(null);
+		}
+		else {
+			processImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
 		processImpl.setStatus(status);
 		processImpl.setStatusByUserId(statusByUserId);
 
@@ -133,6 +170,15 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 
 		kind = objectInput.readLong();
 
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
+
 		status = objectInput.readInt();
 
 		statusByUserId = objectInput.readLong();
@@ -156,6 +202,22 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 
 		objectOutput.writeLong(kind);
 
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
+
 		objectOutput.writeInt(status);
 
 		objectOutput.writeLong(statusByUserId);
@@ -174,6 +236,12 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
 	public String name;
 	public long type;
 	public long kind;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 	public int status;
 	public long statusByUserId;
 	public String statusByUserName;

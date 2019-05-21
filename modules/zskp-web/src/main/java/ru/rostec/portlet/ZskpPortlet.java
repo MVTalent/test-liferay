@@ -40,13 +40,9 @@ public class ZskpPortlet extends MVCPortlet {
         User user = PortalUtil.getUser(request);
         ServiceContext serviceContext = new ServiceContext();
         serviceContext.setScopeGroupId(user.getGroupId());
-        ru.rostec.model.Process process = ProcessLocalServiceUtil.createProcess(new Random().nextLong());
         String processName = ParamUtil.getString(request, "startDate");
         String processType = ParamUtil.getString(request, "startTime");
         String processKind = ParamUtil.getString(request, "endTime");
-        process.setName(processName);
-        process.setType(0);
-        process.setKind(0);
-        ProcessLocalServiceUtil.addProcess(process);
+        ProcessLocalServiceUtil.addProcess(serviceContext, processName, 0, 0, user.getUserId());
     }
 }

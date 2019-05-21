@@ -79,6 +79,12 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 			{ "name", Types.VARCHAR },
 			{ "type_", Types.BIGINT },
 			{ "kind", Types.BIGINT },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP },
 			{ "status", Types.INTEGER },
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
@@ -91,13 +97,19 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("type_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("kind", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table ZSKP_Process (id_ LONG not null primary key,name VARCHAR(75) null,type_ LONG,kind LONG,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table ZSKP_Process (id_ LONG not null primary key,name VARCHAR(75) null,type_ LONG,kind LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table ZSKP_Process";
 	public static final String ORDER_BY_JPQL = " ORDER BY process.name ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY ZSKP_Process.name ASC";
@@ -133,6 +145,12 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 		model.setName(soapModel.getName());
 		model.setType(soapModel.getType());
 		model.setKind(soapModel.getKind());
+		model.setGroupId(soapModel.getGroupId());
+		model.setCompanyId(soapModel.getCompanyId());
+		model.setUserId(soapModel.getUserId());
+		model.setUserName(soapModel.getUserName());
+		model.setCreateDate(soapModel.getCreateDate());
+		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setStatus(soapModel.getStatus());
 		model.setStatusByUserId(soapModel.getStatusByUserId());
 		model.setStatusByUserName(soapModel.getStatusByUserName());
@@ -329,6 +347,126 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
 			});
 		attributeGetterFunctions.put(
+			"groupId",
+			new Function<Process, Object>() {
+
+				@Override
+				public Object apply(Process process) {
+					return process.getGroupId();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"groupId",
+			new BiConsumer<Process, Object>() {
+
+				@Override
+				public void accept(Process process, Object groupId) {
+					process.setGroupId((Long)groupId);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<Process, Object>() {
+
+				@Override
+				public Object apply(Process process) {
+					return process.getCompanyId();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"companyId",
+			new BiConsumer<Process, Object>() {
+
+				@Override
+				public void accept(Process process, Object companyId) {
+					process.setCompanyId((Long)companyId);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<Process, Object>() {
+
+				@Override
+				public Object apply(Process process) {
+					return process.getUserId();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"userId",
+			new BiConsumer<Process, Object>() {
+
+				@Override
+				public void accept(Process process, Object userId) {
+					process.setUserId((Long)userId);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<Process, Object>() {
+
+				@Override
+				public Object apply(Process process) {
+					return process.getUserName();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"userName",
+			new BiConsumer<Process, Object>() {
+
+				@Override
+				public void accept(Process process, Object userName) {
+					process.setUserName((String)userName);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<Process, Object>() {
+
+				@Override
+				public Object apply(Process process) {
+					return process.getCreateDate();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"createDate",
+			new BiConsumer<Process, Object>() {
+
+				@Override
+				public void accept(Process process, Object createDate) {
+					process.setCreateDate((Date)createDate);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<Process, Object>() {
+
+				@Override
+				public Object apply(Process process) {
+					return process.getModifiedDate();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			new BiConsumer<Process, Object>() {
+
+				@Override
+				public void accept(Process process, Object modifiedDate) {
+					process.setModifiedDate((Date)modifiedDate);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"status",
 			new Function<Process, Object>() {
 
@@ -471,6 +609,99 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 	@Override
 	public void setKind(long kind) {
 		_kind = kind;
+	}
+
+	@JSON
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	@JSON
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
+	@JSON
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return "";
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@JSON
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return "";
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@JSON
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@JSON
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
 	}
 
 	@JSON
@@ -636,7 +867,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Process.class.getName(), getPrimaryKey());
 	}
 
@@ -665,6 +896,12 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 		processImpl.setName(getName());
 		processImpl.setType(getType());
 		processImpl.setKind(getKind());
+		processImpl.setGroupId(getGroupId());
+		processImpl.setCompanyId(getCompanyId());
+		processImpl.setUserId(getUserId());
+		processImpl.setUserName(getUserName());
+		processImpl.setCreateDate(getCreateDate());
+		processImpl.setModifiedDate(getModifiedDate());
 		processImpl.setStatus(getStatus());
 		processImpl.setStatusByUserId(getStatusByUserId());
 		processImpl.setStatusByUserName(getStatusByUserName());
@@ -731,6 +968,8 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
 		processModelImpl._originalName = processModelImpl._name;
 
+		processModelImpl._setModifiedDate = false;
+
 		processModelImpl._originalStatus = processModelImpl._status;
 
 		processModelImpl._setOriginalStatus = false;
@@ -755,6 +994,38 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 		processCacheModel.type = getType();
 
 		processCacheModel.kind = getKind();
+
+		processCacheModel.groupId = getGroupId();
+
+		processCacheModel.companyId = getCompanyId();
+
+		processCacheModel.userId = getUserId();
+
+		processCacheModel.userName = getUserName();
+
+		String userName = processCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			processCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			processCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			processCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			processCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			processCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
 
 		processCacheModel.status = getStatus();
 
@@ -844,6 +1115,13 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 	private String _originalName;
 	private long _type;
 	private long _kind;
+	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private int _status;
 	private int _originalStatus;
 	private boolean _setOriginalStatus;

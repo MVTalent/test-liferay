@@ -61,6 +61,12 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 		attributes.put("name", getName());
 		attributes.put("type", getType());
 		attributes.put("kind", getKind());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("status", getStatus());
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
@@ -93,6 +99,42 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 
 		if (kind != null) {
 			setKind(kind);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 
 		Integer status = (Integer)attributes.get("status");
@@ -130,9 +172,39 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 		return _process.compareTo(process);
 	}
 
+	/**
+	* Returns the company ID of this process.
+	*
+	* @return the company ID of this process
+	*/
+	@Override
+	public long getCompanyId() {
+		return _process.getCompanyId();
+	}
+
+	/**
+	* Returns the create date of this process.
+	*
+	* @return the create date of this process
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _process.getCreateDate();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _process.getExpandoBridge();
+	}
+
+	/**
+	* Returns the group ID of this process.
+	*
+	* @return the group ID of this process
+	*/
+	@Override
+	public long getGroupId() {
+		return _process.getGroupId();
 	}
 
 	/**
@@ -153,6 +225,16 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 	@Override
 	public long getKind() {
 		return _process.getKind();
+	}
+
+	/**
+	* Returns the modified date of this process.
+	*
+	* @return the modified date of this process
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _process.getModifiedDate();
 	}
 
 	/**
@@ -238,6 +320,36 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 	@Override
 	public long getType() {
 		return _process.getType();
+	}
+
+	/**
+	* Returns the user ID of this process.
+	*
+	* @return the user ID of this process
+	*/
+	@Override
+	public long getUserId() {
+		return _process.getUserId();
+	}
+
+	/**
+	* Returns the user name of this process.
+	*
+	* @return the user name of this process
+	*/
+	@Override
+	public String getUserName() {
+		return _process.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this process.
+	*
+	* @return the user uuid of this process
+	*/
+	@Override
+	public String getUserUuid() {
+		return _process.getUserUuid();
 	}
 
 	@Override
@@ -350,6 +462,26 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 		_process.setCachedModel(cachedModel);
 	}
 
+	/**
+	* Sets the company ID of this process.
+	*
+	* @param companyId the company ID of this process
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_process.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this process.
+	*
+	* @param createDate the create date of this process
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_process.setCreateDate(createDate);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
@@ -364,6 +496,16 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_process.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the group ID of this process.
+	*
+	* @param groupId the group ID of this process
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_process.setGroupId(groupId);
 	}
 
 	/**
@@ -384,6 +526,16 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 	@Override
 	public void setKind(long kind) {
 		_process.setKind(kind);
+	}
+
+	/**
+	* Sets the modified date of this process.
+	*
+	* @param modifiedDate the modified date of this process
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_process.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -474,6 +626,36 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 	@Override
 	public void setType(long type) {
 		_process.setType(type);
+	}
+
+	/**
+	* Sets the user ID of this process.
+	*
+	* @param userId the user ID of this process
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_process.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this process.
+	*
+	* @param userName the user name of this process
+	*/
+	@Override
+	public void setUserName(String userName) {
+		_process.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this process.
+	*
+	* @param userUuid the user uuid of this process
+	*/
+	@Override
+	public void setUserUuid(String userUuid) {
+		_process.setUserUuid(userUuid);
 	}
 
 	@Override

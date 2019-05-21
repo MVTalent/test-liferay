@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -46,6 +50,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1197,6 +1202,8 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 		process.setNew(true);
 		process.setPrimaryKey(id);
 
+		process.setCompanyId(companyProvider.getCompanyId());
+
 		return process;
 	}
 
@@ -1302,6 +1309,28 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 		}
 
 		ProcessModelImpl processModelImpl = (ProcessModelImpl)process;
+
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (process.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				process.setCreateDate(now);
+			}
+			else {
+				process.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!processModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				process.setModifiedDate(now);
+			}
+			else {
+				process.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
 
 		Session session = null;
 
@@ -1846,6 +1875,8 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

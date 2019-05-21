@@ -21,6 +21,8 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -42,7 +44,8 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface ProcessModel extends BaseModel<Process>, WorkflowedModel {
+public interface ProcessModel extends BaseModel<Process>, GroupedModel,
+	ShardedModel, WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -119,6 +122,119 @@ public interface ProcessModel extends BaseModel<Process>, WorkflowedModel {
 	 * @param kind the kind of this process
 	 */
 	public void setKind(long kind);
+
+	/**
+	 * Returns the group ID of this process.
+	 *
+	 * @return the group ID of this process
+	 */
+	@Override
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this process.
+	 *
+	 * @param groupId the group ID of this process
+	 */
+	@Override
+	public void setGroupId(long groupId);
+
+	/**
+	 * Returns the company ID of this process.
+	 *
+	 * @return the company ID of this process
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this process.
+	 *
+	 * @param companyId the company ID of this process
+	 */
+	@Override
+	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the user ID of this process.
+	 *
+	 * @return the user ID of this process
+	 */
+	@Override
+	public long getUserId();
+
+	/**
+	 * Sets the user ID of this process.
+	 *
+	 * @param userId the user ID of this process
+	 */
+	@Override
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this process.
+	 *
+	 * @return the user uuid of this process
+	 */
+	@Override
+	public String getUserUuid();
+
+	/**
+	 * Sets the user uuid of this process.
+	 *
+	 * @param userUuid the user uuid of this process
+	 */
+	@Override
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this process.
+	 *
+	 * @return the user name of this process
+	 */
+	@AutoEscape
+	@Override
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this process.
+	 *
+	 * @param userName the user name of this process
+	 */
+	@Override
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this process.
+	 *
+	 * @return the create date of this process
+	 */
+	@Override
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this process.
+	 *
+	 * @param createDate the create date of this process
+	 */
+	@Override
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this process.
+	 *
+	 * @return the modified date of this process
+	 */
+	@Override
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this process.
+	 *
+	 * @param modifiedDate the modified date of this process
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate);
 
 	/**
 	 * Returns the status of this process.
