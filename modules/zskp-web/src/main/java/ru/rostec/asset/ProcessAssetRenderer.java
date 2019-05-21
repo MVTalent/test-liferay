@@ -32,17 +32,17 @@ public class ProcessAssetRenderer extends BaseJSPAssetRenderer<Process> {
 
     @Override
     public long getGroupId() {
-        return 0;
+        return process.getGroupId();
     }
 
     @Override
     public long getUserId() {
-        return 0;
+        return process.getUserId();
     }
 
     @Override
     public String getUserName() {
-        return null;
+        return process.getUserName();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ProcessAssetRenderer extends BaseJSPAssetRenderer<Process> {
 
     @Override
     public String getTitle(Locale locale) {
-        return null;
+        return process.getName();
     }
 
     @Override
@@ -79,6 +79,11 @@ public class ProcessAssetRenderer extends BaseJSPAssetRenderer<Process> {
     public boolean include(HttpServletRequest request, HttpServletResponse response, String template) throws Exception {
         request.setAttribute("processEntry", process);
         return super.include(request, response, template);
+    }
+
+    @Override
+    public int getStatus() {
+        return process.getStatus();
     }
 }
 

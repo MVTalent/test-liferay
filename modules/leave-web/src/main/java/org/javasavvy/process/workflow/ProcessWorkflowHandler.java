@@ -1,3 +1,4 @@
+/*
 package org.javasavvy.process.workflow;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -40,3 +41,4 @@ public class ProcessWorkflowHandler extends BaseWorkflowHandler<Process> {
         return null;
     }
 }
+*/

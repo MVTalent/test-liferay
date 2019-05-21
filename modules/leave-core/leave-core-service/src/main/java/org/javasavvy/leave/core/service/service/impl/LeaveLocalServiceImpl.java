@@ -27,7 +27,6 @@ import org.javasavvy.leave.core.service.model.Leave;
 import org.javasavvy.leave.core.service.service.base.LeaveLocalServiceBaseImpl;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * The implementation of the leave local service.
@@ -49,15 +48,12 @@ public class LeaveLocalServiceImpl extends LeaveLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link org.javasavvy.leave.core.service.service.LeaveLocalServiceUtil} to access the leave local service.
 	 */
-	public int getLeaveCount(long userId) {
-		return leavePersistence.countByuserId(userId);
-	}
+	public Leave addLeave(ServiceContext serviceContext, String leaveName, Date startDate, Date leaveEndDate ){
 
-	public Leave addLeave(ServiceContext serviceContext, String leaveName, Date startDate, Date leaveEndDate) {
 		long leaveId = counterLocalService.increment(Leave.class.getName());
 		Leave leave = null;
 		try {
-			User user = userLocalService.getUser(20139);
+			User user = userLocalService.getUser(serviceContext.getUserId());
 			leave = leaveLocalService.createLeave(leaveId);
 			leave.setUserId(serviceContext.getUserId());
 			leave.setCreateDate(new Date());
@@ -87,22 +83,6 @@ public class LeaveLocalServiceImpl extends LeaveLocalServiceBaseImpl {
 			e.printStackTrace();
 		}
 		return leave;
-	}
-
-	public List<Leave> getLeavesByUserId(long userId) {
-		return leavePersistence.findByuserId(userId);
-	}
-
-	public List<Leave> getLeavesByUserId(long userId, int start, int end) {
-		return leavePersistence.findByuserId(userId, start, end);
-	}
-
-	public List<Leave> getLeaveByStatus(long groupId, int status) {
-		return leavePersistence.findBystatus(groupId, status);
-	}
-
-	public List<Leave> getLeaveByStatus(long groupId, int status, int start, int end) {
-		return leavePersistence.findBystatus(groupId, status, start, end);
 	}
 
 	public Leave updateStatus(long userId,long leaveId,int status,ServiceContext serviceContext){

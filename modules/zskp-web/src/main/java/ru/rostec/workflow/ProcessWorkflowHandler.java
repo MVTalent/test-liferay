@@ -24,7 +24,7 @@ public class ProcessWorkflowHandler extends BaseWorkflowHandler<Process> {
     private ProcessLocalService processLocalService;
 
     @Reference(unbind = "-")
-    protected void setLeaveService(ProcessLocalService processService) {
+    protected void setProcessService(ProcessLocalService processService) {
         this.processLocalService = processService;
     }
 

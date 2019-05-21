@@ -211,13 +211,6 @@ public interface LeaveLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Leave getLeave(long leaveId) throws PortalException;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Leave> getLeaveByStatus(long groupId, int status);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Leave> getLeaveByStatus(long groupId, int status, int start,
-		int end);
-
 	/**
 	* Returns the leave matching the UUID and group.
 	*
@@ -229,9 +222,6 @@ public interface LeaveLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Leave getLeaveByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getLeaveCount(long userId);
 
 	/**
 	* Returns a range of all the leaves.
@@ -246,12 +236,6 @@ public interface LeaveLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Leave> getLeaves(int start, int end);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Leave> getLeavesByUserId(long userId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Leave> getLeavesByUserId(long userId, int start, int end);
 
 	/**
 	* Returns all the leaves matching the UUID and company.

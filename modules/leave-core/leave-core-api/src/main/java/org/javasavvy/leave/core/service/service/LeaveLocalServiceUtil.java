@@ -226,16 +226,6 @@ public class LeaveLocalServiceUtil {
 		return getService().getLeave(leaveId);
 	}
 
-	public static java.util.List<org.javasavvy.leave.core.service.model.Leave> getLeaveByStatus(
-		long groupId, int status) {
-		return getService().getLeaveByStatus(groupId, status);
-	}
-
-	public static java.util.List<org.javasavvy.leave.core.service.model.Leave> getLeaveByStatus(
-		long groupId, int status, int start, int end) {
-		return getService().getLeaveByStatus(groupId, status, start, end);
-	}
-
 	/**
 	* Returns the leave matching the UUID and group.
 	*
@@ -248,10 +238,6 @@ public class LeaveLocalServiceUtil {
 		String uuid, long groupId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getLeaveByUuidAndGroupId(uuid, groupId);
-	}
-
-	public static int getLeaveCount(long userId) {
-		return getService().getLeaveCount(userId);
 	}
 
 	/**
@@ -268,16 +254,6 @@ public class LeaveLocalServiceUtil {
 	public static java.util.List<org.javasavvy.leave.core.service.model.Leave> getLeaves(
 		int start, int end) {
 		return getService().getLeaves(start, end);
-	}
-
-	public static java.util.List<org.javasavvy.leave.core.service.model.Leave> getLeavesByUserId(
-		long userId) {
-		return getService().getLeavesByUserId(userId);
-	}
-
-	public static java.util.List<org.javasavvy.leave.core.service.model.Leave> getLeavesByUserId(
-		long userId, int start, int end) {
-		return getService().getLeavesByUserId(userId, start, end);
 	}
 
 	/**
