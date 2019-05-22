@@ -18,10 +18,7 @@
         userName="<%= themeDisplay.getRealUser().getFullName() %>"
 />
 <div class="container-fluid-1280 main-content-body">
-    <liferay-ui:table-iterator list="" listType="" rowLength="">
-
-    </liferay-ui:table-iterator>
-    <liferay-ui:search-container emptyResultsMessage="no-process-found" iteratorURL="<%=leaveItrUrl %>">
+    <liferay-ui:search-container emptyResultsMessage="no-leaves-found" iteratorURL="<%=leaveItrUrl %>">
         <liferay-ui:search-container-results results="<%= LeaveLocalServiceUtil.getLeaves(-1, -1) %>">
         </liferay-ui:search-container-results>
 

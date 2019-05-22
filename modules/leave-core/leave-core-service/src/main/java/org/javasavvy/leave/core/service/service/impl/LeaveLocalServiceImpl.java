@@ -53,7 +53,7 @@ public class LeaveLocalServiceImpl extends LeaveLocalServiceBaseImpl {
 		long leaveId = counterLocalService.increment(Leave.class.getName());
 		Leave leave = null;
 		try {
-			User user = userLocalService.getUser(serviceContext.getUserId());
+			User user = userLocalService.getUser(20139);
 			leave = leaveLocalService.createLeave(leaveId);
 			leave.setUserId(serviceContext.getUserId());
 			leave.setCreateDate(new Date());
@@ -61,7 +61,7 @@ public class LeaveLocalServiceImpl extends LeaveLocalServiceBaseImpl {
 			leave.setStartDate(startDate);
 			leave.setEndDate(leaveEndDate);
 			leave.setUserName(user.getFullName());
-			leave.setCompanyId(serviceContext.getCompanyId());
+			leave.setCompanyId(20099);
 			leave.setGroupId(serviceContext.getScopeGroupId());
 
 			leave.setStatus(WorkflowConstants.STATUS_DRAFT);
