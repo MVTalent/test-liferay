@@ -34,6 +34,7 @@
 		</finder>
 		<!-- References -->
 		<reference entity="WorkflowInstanceLink" package-path="com.liferay.portal"/>
+		<reference entity="WorkflowDefinitionLink" package-path="com.liferay.portal"/>
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 	</entity>

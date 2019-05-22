@@ -89,7 +89,15 @@ public class LeaveAssetRenderer extends BaseJSPAssetRenderer<Leave> implements T
 
     @Override
     public String getJspPath(HttpServletRequest request, String template) {
-        return "/leaveInfo.jsp";
+        if (template.equals(TEMPLATE_ABSTRACT) ||
+                template.equals(TEMPLATE_FULL_CONTENT)) {
+            return "/leaveInfo.jsp";
+        }
+        else {
+
+            return null;
+        }
+
 
     }
 
