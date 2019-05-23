@@ -231,6 +231,18 @@ public class LeaveLocalServiceWrapper implements LeaveLocalService,
 		return _leaveLocalService.getLeave(leaveId);
 	}
 
+	@Override
+	public java.util.List<org.javasavvy.leave.core.service.model.Leave> getLeaveByStatus(
+		long groupId, int status) {
+		return _leaveLocalService.getLeaveByStatus(groupId, status);
+	}
+
+	@Override
+	public java.util.List<org.javasavvy.leave.core.service.model.Leave> getLeaveByStatus(
+		long groupId, int status, int start, int end) {
+		return _leaveLocalService.getLeaveByStatus(groupId, status, start, end);
+	}
+
 	/**
 	* Returns the leave matching the UUID and group.
 	*

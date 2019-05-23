@@ -211,6 +211,13 @@ public interface LeaveLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Leave getLeave(long leaveId) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Leave> getLeaveByStatus(long groupId, int status);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Leave> getLeaveByStatus(long groupId, int status, int start,
+		int end);
+
 	/**
 	* Returns the leave matching the UUID and group.
 	*

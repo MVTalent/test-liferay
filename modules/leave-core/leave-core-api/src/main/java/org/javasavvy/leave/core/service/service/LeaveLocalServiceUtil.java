@@ -226,6 +226,16 @@ public class LeaveLocalServiceUtil {
 		return getService().getLeave(leaveId);
 	}
 
+	public static java.util.List<org.javasavvy.leave.core.service.model.Leave> getLeaveByStatus(
+		long groupId, int status) {
+		return getService().getLeaveByStatus(groupId, status);
+	}
+
+	public static java.util.List<org.javasavvy.leave.core.service.model.Leave> getLeaveByStatus(
+		long groupId, int status, int start, int end) {
+		return getService().getLeaveByStatus(groupId, status, start, end);
+	}
+
 	/**
 	* Returns the leave matching the UUID and group.
 	*
